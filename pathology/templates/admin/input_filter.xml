@@ -1,0 +1,40 @@
+{% load i18n %}
+{% load static %}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+<link rel="stylesheet" type="text/css" href="{% static 'pathology/style.css' %}">
+<h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
+<ul>
+    <li>
+        {% with choices.0 as all_choice %}
+        <form method="GET" action=""  class="text-filter-input">
+
+            {% for k, v in all_choice.query_parts %}
+            <input type="hidden" name="{{ k }}" value="{{ v }}" />
+            {% endfor %}
+
+            <input  type="text"
+                    value="{{ spec.value|default_if_none:'' }}"
+                    name="{{ spec.parameter_name }}"/>
+            <input type="submit" value="搜索" class="serach-submit">
+            
+</form>
+            {% if not all_choice.selected %}
+                <a href="{{ all_choice.query_string }}">X 清空</a>
+            {% endif %}
+
+        
+        {% endwith %}
+    </li>
+</ul>
