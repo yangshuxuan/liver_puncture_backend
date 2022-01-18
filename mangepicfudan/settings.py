@@ -77,10 +77,10 @@ WSGI_APPLICATION = 'mangepicfudan.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        #'NAME': 'liver_puncture',
+        #'HOST':'139.198.180.97',
         'NAME': 'liver_puncture',
-        'HOST':'139.198.180.97',
-        # 'NAME': 'storefront',
-        # 'HOST':'db',
+        'HOST':'db',
         'USER':'root',
         'PASSWORD':'pcl123456'
     }
