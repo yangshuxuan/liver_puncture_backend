@@ -18,5 +18,7 @@ EXPOSE 80
 # RUN mkdir /etc/periodic/1min
 COPY crontab_backup_mysql.sh /etc/periodic/hourly/crontab_backup_mysql
 RUN chmod u+x /etc/periodic/hourly/crontab_backup_mysql
+RUN chmod u+x ./entrypoint.sh
+RUN chmod u+x ./wait-for
 # The code to run when container is started:
 ENTRYPOINT ["./entrypoint.sh"]
