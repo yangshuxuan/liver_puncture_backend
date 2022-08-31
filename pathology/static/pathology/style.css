@@ -1,0 +1,18 @@
+.text-filter-input {
+  /* min-height: 20vh; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.serach-submit {
+  border: 1px solid var(--border-color) !important;
+  font-size: 13px !important;
+  padding: 4px 8px !important;
+  /* 上边 | 右边 | 下边 | 左边 */
+  margin: 0px 0px 3px 2px !important;
+  vertical-align: middle !important;
+  background: var(--body-bg) !important;
+  box-shadow: 0 -15px 20px -10px rgba(0, 0, 0, 0.15) inset !important;
+  cursor: pointer !important;
+  color: var(--body-fg) !important;
+}
