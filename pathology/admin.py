@@ -151,11 +151,12 @@ class PatientAdmin(admin.ModelAdmin):
     def has_change_permission(self,request, obj=None):
         if obj is None:
             return True
-        return obj.doctors.filter(id = request.user.id).exists()
+        return obj.doctors.filter(id = request.user.id).exists()  or  obj.creator.id == request.user.id  or User.objects.get(pk=request.user.id).is_superuser
     def has_delete_permission(self,request, obj=None):
         if obj is None:
             return True
-        return obj.creator.id == request.user.id
+        return obj.doctors.filter(id = request.user.id).exists()  or  obj.creator.id == request.user.id  or User.objects.get(pk=request.user.id).is_superuser
+
     
 
     def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
