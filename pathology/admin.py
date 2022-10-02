@@ -50,6 +50,39 @@ class OperateDiagoseFilter(InputFilter):
             return queryset.filter(
                 Q(operateDiagose__icontains=operateDiagose)
             )
+class SampleNumberFilter(InputFilter):
+    parameter_name = 'sampleNumber'
+    title = '标本号'
+
+    def queryset(self, request, queryset):
+        if self.value() is not None:
+            sampleNumber = self.value()
+
+            return queryset.filter(
+                Q(sampleNumber__icontains=sampleNumber)
+            )
+class MicroscopyFilter(InputFilter):
+    parameter_name = 'microscopy'
+    title = '镜检'
+
+    def queryset(self, request, queryset):
+        if self.value() is not None:
+            microscopy = self.value()
+
+            return queryset.filter(
+                Q(microscopy__icontains=microscopy)
+            )
+class AdviceFilter(InputFilter):
+    parameter_name = 'advice'
+    title = '诊断意见'
+
+    def queryset(self, request, queryset):
+        if self.value() is not None:
+            advice = self.value()
+
+            return queryset.filter(
+                Q(advice__icontains=advice)
+            )
 class OperateSeqNumberFilter(InputFilter):
     parameter_name = 'operateSeqNumber'
     title = '剖验号数'
@@ -101,18 +134,21 @@ class PatientAdmin(admin.ModelAdmin):
         'doctors',
     )
     list_filter = (
+        SampleNumberFilter,
+        MicroscopyFilter,
+        AdviceFilter,
         # OperateSeqNumberFilter,
         # OperateDiagoseFilter,
         # DeadReasonFilter,
         DoctorFullnameFilter,
     )
-    list_display = ['name','sex','age','doctorNames','enterPictureList','generateDignoseDoc','receiveDate','reportDate','creatorFunc']
+    list_display = ['name','sex','age','doctorNames','sampleNumber','enterPictureList','generateDignoseDoc','receiveDate','reportDate','creatorFunc']
     inlines = [PathologyPictureInline]
     ordering = ['name']
     search_fields = ['name',
     'doctors__username',
     'doctors__first_name',
-    'doctors__last_name','creator__username']
+    'doctors__last_name','creator__username','sampleNumber','advice','microscopy']
     
     exclude = ('creator',)
     list_per_page = 10
