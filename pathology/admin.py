@@ -61,6 +61,28 @@ class SampleNumberFilter(InputFilter):
             return queryset.filter(
                 Q(sampleNumber__icontains=sampleNumber)
             )
+class HospitalFilter(InputFilter):
+    parameter_name = 'hospital'
+    title = '医院'
+
+    def queryset(self, request, queryset):
+        if self.value() is not None:
+            hospital = self.value()
+
+            return queryset.filter(
+                Q(hospital__icontains=hospital)
+            )
+class YearFilter(InputFilter):
+    parameter_name = 'year'
+    title = '年份'
+
+    def queryset(self, request, queryset):
+        if self.value() is not None:
+            year = self.value()
+
+            return queryset.filter(
+                Q(receiveDate__year=year)
+            )
 class MicroscopyFilter(InputFilter):
     parameter_name = 'microscopy'
     title = '镜检'
@@ -141,14 +163,16 @@ class PatientAdmin(admin.ModelAdmin):
         # OperateDiagoseFilter,
         # DeadReasonFilter,
         DoctorFullnameFilter,
+        YearFilter,
+        HospitalFilter
     )
-    list_display = ['name','sex','age','doctorNames','sampleNumber','enterPictureList','generateDignoseDoc','receiveDate','reportDate','creatorFunc']
+    list_display = ['name','sex','age','doctorNames','sampleNumber','enterPictureList','generateDignoseDoc','receiveDate','reportDate','sampleNumberSuffix','creatorFunc','hospital']
     inlines = [PathologyPictureInline]
-    ordering = ['name']
+    #ordering = ['name']
     search_fields = ['name',
     'doctors__username',
     'doctors__first_name',
-    'doctors__last_name','creator__username','sampleNumber','advice','microscopy']
+    'doctors__last_name','receiveDate','reportDate','hospital','creator__username','sampleNumber','advice','microscopy']
     
     exclude = ('creator',)
     list_per_page = 10

@@ -67,7 +67,7 @@ def generateDocument(request):
     }
     context = dict((k,context[k] if context[k] else "") for k in context)
 
-    tpl.render(context)
+    tpl.render(context,autoescape=True)
     
 
 

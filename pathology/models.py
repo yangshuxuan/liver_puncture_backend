@@ -26,7 +26,7 @@ class Patient(models.Model):
   age = models.CharField(max_length=255,blank=True,null=True,verbose_name="年龄")
   receiveDate = models.DateField(verbose_name="收到日期")
   reportDate = models.DateField(verbose_name="报告日期")
-  sampleNumber = models.CharField(max_length=255,blank=True,null=True,verbose_name="标本号")
+  sampleNumber = models.CharField(max_length=255,verbose_name="标本号",null=True)
   hospital = models.CharField(max_length=255,blank=True,null=True,verbose_name="送检医院")
   roomNumber = models.CharField(max_length=255,blank=True,null=True,verbose_name="病房")
   bedNumber = models.CharField(max_length=255,blank=True,null=True,verbose_name="病床")
@@ -36,6 +36,21 @@ class Patient(models.Model):
   advice = models.TextField(verbose_name="意见")
 
   creator = models.ForeignKey(User,verbose_name="记录创建者",on_delete=models.PROTECT, related_name='+')
+  sampleNumberSuffix = models.IntegerField(null=True,verbose_name="标本号后缀")
+
+  def save(self, *args, **kwargs):
+        print(kwargs)
+        print(args)
+        try:    
+            if self.sampleNumberSuffix is None and self.sampleNumber is not None:
+                self.sampleNumberSuffix = int(self.sampleNumber.split("-")[-1])
+            if "sampleNumber" in kwargs:
+                kwargs["sampleNumberSuffix"] = int(kwargs["sampleNumber"].split("-")[-1])
+        except ValueError as ex:
+            print("can not convert string to int")
+
+        super().save(*args, **kwargs)  # Call the "real" save() method.
+
 
         
   def __str__(self) -> str:
